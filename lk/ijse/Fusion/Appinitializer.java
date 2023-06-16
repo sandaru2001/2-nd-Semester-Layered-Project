@@ -22,5 +22,6 @@ public class Appinitializer extends Application {
         Scene scene=new Scene(load);
         primaryStage.setScene(scene);
         primaryStage.show();
+        //AA
     }
 }
