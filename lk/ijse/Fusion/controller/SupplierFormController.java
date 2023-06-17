@@ -68,7 +68,7 @@ public class SupplierFormController {
 
     }
 
-    public void deleeteeOnAction(ActionEvent actionEvent) {
+    public void deleteOnAction(ActionEvent actionEvent) {
 
         String SupplierID = supplierIdTxt.getText();
         String SupplierName = supplierNamTxt.getText();
