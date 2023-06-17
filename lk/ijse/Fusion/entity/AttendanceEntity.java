@@ -6,7 +6,6 @@ public class AttendanceEntity {
     private int AttendDate;
     private String InTime;
     private String OutTime;
-    private String stetus;
 
     public AttendanceEntity() {
     }
@@ -16,7 +15,6 @@ public class AttendanceEntity {
         AttendDate = attendDate;
         InTime = inTime;
         OutTime = outTime;
-        this.stetus = stetus;
     }
 
     public String getAttendID() {
@@ -51,14 +49,6 @@ public class AttendanceEntity {
         OutTime = outTime;
     }
 
-    public String getStetus() {
-        return stetus;
-    }
-
-    public void setStetus(String stetus) {
-        this.stetus = stetus;
-    }
-
     @Override
     public String toString() {
         return "AttendanceEntity{" +
@@ -66,7 +56,6 @@ public class AttendanceEntity {
                 ", AttendDate=" + AttendDate +
                 ", InTime='" + InTime + '\'' +
                 ", OutTime='" + OutTime + '\'' +
-                ", stetus='" + stetus + '\'' +
                 '}';
     }
 }

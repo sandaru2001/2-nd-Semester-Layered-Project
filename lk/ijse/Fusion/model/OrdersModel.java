@@ -67,15 +67,15 @@ public class OrdersModel {
          return null;
 
      }*/
-    public static String getOrderId() throws SQLException, ClassNotFoundException {
-        String sql = "SELECT OrderID FROM Orders ORDER BY OrderID DESC LIMIT 1";
-        ResultSet result = CRUDutil.execute(sql);
-
-        if (result.next()) {
-            return result.getString(1);
-        }
-        return null;
-    }
+//    public static String getOrderId() throws SQLException, ClassNotFoundException {
+//        String sql = "SELECT OrderID FROM Orders ORDER BY OrderID DESC LIMIT 1";
+//        ResultSet result = CRUDutil.execute(sql);
+//
+//        if (result.next()) {
+//            return result.getString(1);
+//        }
+//        return null;
+//    }
 
 
 //    public static String generateNextOrderId() throws SQLException, ClassNotFoundException {

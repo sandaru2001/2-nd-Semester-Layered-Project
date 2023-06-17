@@ -3,6 +3,8 @@ package lk.ijse.Fusion.lk.ijse.Fusion.controller;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import lk.ijse.Fusion.lk.ijse.Fusion.bo.BOFactory;
+import lk.ijse.Fusion.lk.ijse.Fusion.bo.custom.SalaryBO;
 import lk.ijse.Fusion.lk.ijse.Fusion.model.SalaryModel;
 import lk.ijse.Fusion.lk.ijse.Fusion.dto.Salary;
 
@@ -15,6 +17,8 @@ public class SalaryFormController {
     public TextField salaryMethodTxt;
     public TextField txtDetail;
 
+    SalaryBO salaryBO = (SalaryBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.SALARY);
+
 
     public void deleteOnAction(ActionEvent actionEvent) {
         String  SalaryID  =  SalaryIdtxt.getText();
@@ -23,11 +27,11 @@ public class SalaryFormController {
         String SalaryMethod = salaryMethodTxt.getText();
         String  Details = txtDetail.getText();
 
-        Salary salary = new Salary(SalaryID,EmployeeID,SalaryAmount,SalaryMethod,Details);
+        //Salary salary = new Salary(SalaryID,EmployeeID,SalaryAmount,SalaryMethod,Details);
         try {
-            boolean isDeleted = SalaryModel.remove(SalaryIdtxt.getText());
+            boolean deleteSalary = salaryBO.removeSalary(SalaryID);
 
-            if (isDeleted) {
+            if (deleteSalary) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Salary Delete!").show();
             } else {
                 new Alert(Alert.AlertType.WARNING, "Something happened!").show();
@@ -44,11 +48,11 @@ public class SalaryFormController {
         String SalaryMethod = salaryMethodTxt.getText();
         String  Details = txtDetail.getText();
 
-        Salary salary = new Salary(SalaryID,EmployeeID,SalaryAmount,SalaryMethod,Details);
+        //Salary salary = new Salary(SalaryID,EmployeeID,SalaryAmount,SalaryMethod,Details);
         try {
-            boolean isUpdate = SalaryModel.update(salary);
+            boolean updateSalary = salaryBO.updateSalary(new Salary(SalaryID,SalaryMethod,SalaryAmount,Details,EmployeeID));
 
-            if (isUpdate) {
+            if (updateSalary) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Salary Update!").show();
             } else {
                 new Alert(Alert.AlertType.WARNING, "Something happened!").show();
@@ -66,11 +70,11 @@ public class SalaryFormController {
         String  Details = txtDetail.getText();
 
 
-        Salary salary = new Salary(SalaryID,EmployeeID,SalaryAmount,SalaryMethod,Details);
+        //Salary salary = new Salary(SalaryID,EmployeeID,SalaryAmount,SalaryMethod,Details);
         try {
-            boolean isAdded = SalaryModel.addsala(salary);
+            boolean addSalary = salaryBO.addSalary(new Salary(SalaryID,EmployeeID,SalaryAmount,SalaryMethod,Details));
 
-            if (isAdded) {
+            if (addSalary) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Salary Added!").show();
             } else {
                 new Alert(Alert.AlertType.WARNING, "Something happened!").show();
