@@ -11,11 +11,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.Fusion.lk.ijse.Fusion.Util.CRUDutil;
+import lk.ijse.Fusion.lk.ijse.Fusion.bo.BOFactory;
+import lk.ijse.Fusion.lk.ijse.Fusion.bo.custom.OrderBO;
 import lk.ijse.Fusion.lk.ijse.Fusion.model.OrdersModel;
 import lk.ijse.Fusion.lk.ijse.Fusion.dto.Orders;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class OrderFormController {
     public AnchorPane OrderContext;
@@ -33,6 +36,8 @@ public class OrderFormController {
     public TableColumn ColCusID;
     public TextField CusTxt;
 
+    OrderBO orderBO = (OrderBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ORDER);
+
 
     @FXML
     public void addOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
@@ -43,10 +48,10 @@ public class OrderFormController {
         int  OrderQty = Integer.parseInt(qtyTxt.getText());
 
 
-        Orders orders = new Orders(OrderID,CustomerID,OrderName,OrderDate,OrderQty);
-        boolean isAdded = OrdersModel.addOrders(orders);
+        //Orders orders = new Orders(OrderID,CustomerID,OrderName,OrderDate,OrderQty);
+        boolean addOrders = orderBO.addOrders(new Orders(OrderID,CustomerID,OrderName,OrderDate,OrderQty));
 
-        if (isAdded) {
+        if (addOrders) {
             new Alert(Alert.AlertType.CONFIRMATION, "Order Added!").show();
         } else {
             new Alert(Alert.AlertType.WARNING, "Something happened!").show();
@@ -57,18 +62,17 @@ public class OrderFormController {
     public void UpdateOnAction(ActionEvent actionEvent) {
         String OrderID = orderIdTxt.getText();
         String CustomerID=CusTxt.getText();
-
         String OrderName = orderNameTxt .getText();
         String   OrderDate = dateTxt.getText();
         int  OrderQty = Integer.parseInt(qtyTxt.getText());
 
 
-        Orders orders = new Orders(OrderID,CustomerID,OrderName,OrderDate,OrderQty);
+        //Orders orders = new Orders(OrderID,CustomerID,OrderName,OrderDate,OrderQty);
 
         try {
-            boolean isUpdate = OrdersModel.update(orders);
+            boolean updateOrder = orderBO.updateOrders(new Orders(OrderID,CustomerID,OrderName,OrderDate,OrderQty));
 
-            if (isUpdate) {
+            if (updateOrder) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Orders Update!").show();
             } else {
                 new Alert(Alert.AlertType.WARNING, "Something happened!").show();
@@ -80,18 +84,13 @@ public class OrderFormController {
 
     public void deleteOnAction(ActionEvent actionEvent) {
         String OrderID = orderIdTxt.getText();
-        String CustomerID=CusTxt.getText();
-
-        String OrderName = orderNameTxt .getText();
-        String  OrderDate = dateTxt.getText();
-        int  OrderQty = Integer.parseInt(qtyTxt.getText());
 
 
-        Orders orders = new Orders(OrderID,CustomerID,OrderName,OrderDate,OrderQty);
+        //Orders orders = new Orders(OrderID,CustomerID,OrderName,OrderDate,OrderQty);
         try {
-            boolean isDeleted = OrdersModel.remove(orderIdTxt.getText());
+            boolean deleteOrder = orderBO.removeOrders(OrderID);
 
-            if (isDeleted) {
+            if (deleteOrder) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Order Delete!").show();
             } else {
                 new Alert(Alert.AlertType.WARNING, "Something happened!").show();
@@ -105,10 +104,10 @@ public class OrderFormController {
     public void searchOnAction(ActionEvent actionEvent) {
         String  OrderID =  orderIdTxt.getText();
         try {
-            Orders  orders = OrdersModel.search(orderIdTxt);
-            if (orders != null) {
-                fillData(orders);
-                //new Alert(Alert.AlertType.CONFIRMATION, "Search Ok!!!!").show();
+            //Orders  orders = OrdersModel.search(orderIdTxt);
+            boolean searchOrder = orderBO.searchOrders(OrderID);
+            if (searchOrder) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Search Ok!!!!").show();
             }else{
                 new Alert(Alert.AlertType.WARNING, "Something happened!").show();
             }
@@ -146,21 +145,25 @@ public class OrderFormController {
     }
 
     private void loadAllOrders() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = CRUDutil.execute("SELECT * FROM  fusiontech.Orders");
-        ObservableList<Orders> observableList = FXCollections.observableArrayList();
-        while(resultSet.next()){
-            observableList.add(
-                    new Orders(
-                            resultSet.getString("OrderID"),
-                            resultSet.getString("CustomerID"),
-                            resultSet.getString("OrderName"),
-                            resultSet.getString("OrderDate"),
-                            resultSet.getInt("OrderQty")
-
-                    )
-            );
+//        ResultSet resultSet = CRUDutil.execute("SELECT * FROM  fusiontech.Orders");
+//        ObservableList<Orders> observableList = FXCollections.observableArrayList();
+//        while(resultSet.next()){
+//            observableList.add(
+//                    new Orders(
+//                            resultSet.getString("OrderID"),
+//                            resultSet.getString("CustomerID"),
+//                            resultSet.getString("OrderName"),
+//                            resultSet.getString("OrderDate"),
+//                            resultSet.getInt("OrderQty")
+//
+//                    )
+//            );
+//        }
+//        tblorderalll.setItems(observableList);
+        ArrayList<Orders> allOrders = orderBO.loadOrdersIds();
+        for (Orders o:allOrders) {
+            tblorderalll.getItems().add(new Orders(o.getOrderID(),o.getCustomerID(),o.getOrderName(),o.getOrderDate(),o.getOrderQty()));
         }
-        tblorderalll.setItems(observableList);
     }
 
 }

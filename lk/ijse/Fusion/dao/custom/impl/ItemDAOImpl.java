@@ -47,7 +47,7 @@ public class ItemDAOImpl implements ItemDAO {
         ArrayList<ItemEntity> allItems = new ArrayList<>();
         ResultSet rst = CRUDutil.execute("select * from Item");
         while (rst.next()){
-            ItemEntity itemEntity = new ItemEntity(rst.getString("itemCode"),rst.getString("itemName"),rst.getString("itemDescription"),rst.getInt("itemPrice"),rst.getInt("qtyOnHand"),rst.getString("itemType"));
+            ItemEntity itemEntity = new ItemEntity(rst.getString("ItemCode"),rst.getString("ItemName"),rst.getString("ItemDescription"),rst.getInt("ItemPrice"),rst.getInt("QtyOnHand"),rst.getString("ItemType"));
             allItems.add(itemEntity);
         }
         return allItems;
