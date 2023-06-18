@@ -7,7 +7,7 @@ public class Attendence {
     private String OutTime;
     private String stetus;
 
-    public Attendence() {
+    public Attendence(String attendID, int attendDate, String inTime, String outTime) {
     }
 
     public Attendence(String attendID, int attendDate, String inTime, String outTime, String stetus) {

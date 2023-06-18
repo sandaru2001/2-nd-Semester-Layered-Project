@@ -18,7 +18,7 @@ public class AttendanceBOImpl implements AttendanceBO {
         ArrayList<Attendence> allAttendance = new ArrayList<>();
         ArrayList<AttendanceEntity> all = attendanceDAO.getAllAttendance();
         for (AttendanceEntity a:all) {
-            allAttendance.add(new Attendence(a.getAttendID(),a.getAttendDate(),a.getInTime(),a.getOutTime(),a.getStetus()));
+            allAttendance.add(new Attendence(a.getAttendID(),a.getAttendDate(),a.getInTime(),a.getOutTime()));
         }
         return allAttendance;
     }
