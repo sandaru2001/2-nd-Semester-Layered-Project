@@ -3,6 +3,9 @@ package lk.ijse.Fusion.lk.ijse.Fusion.controller;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import lk.ijse.Fusion.lk.ijse.Fusion.bo.BOFactory;
+import lk.ijse.Fusion.lk.ijse.Fusion.bo.SuperBO;
+import lk.ijse.Fusion.lk.ijse.Fusion.bo.custom.SupplierBO;
 import lk.ijse.Fusion.lk.ijse.Fusion.model.SupplierModel;
 import lk.ijse.Fusion.lk.ijse.Fusion.dto.Suppliers;
 
@@ -18,6 +21,8 @@ public class SupplierFormController {
     public TextField supplierIdTxt;
     public TextField itemTxt;
 
+    SupplierBO supplierBO = (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.SUPPLIER);
+
     public void addOnAction(ActionEvent actionEvent) {
         String SupplierID = supplierIdTxt.getText();
         String SupplierName = supplierNamTxt.getText();
@@ -27,11 +32,11 @@ public class SupplierFormController {
         String ItemCode = itemTxt.getText();
         String Amount=amountTxt.getText();
 
-        Suppliers suppliers = new Suppliers(SupplierID, SupplierName,SupplierEmail,SupplierContact,Price,ItemCode,Amount);
+        //Suppliers suppliers = new Suppliers(SupplierID, SupplierName,SupplierEmail,SupplierContact,Price,ItemCode,Amount);
         try {
-            boolean isAdded = SupplierModel.addsupplly(suppliers);
+            boolean addSupplier = supplierBO.addSuppliers(new Suppliers(SupplierID,SupplierName,SupplierEmail,SupplierContact,Price,ItemCode,Amount));
 
-            if (isAdded) {
+            if (addSupplier) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Customer Added!").show();
             } else {
                 new Alert(Alert.AlertType.WARNING, "Something happened!").show();
@@ -51,12 +56,13 @@ public class SupplierFormController {
         double Price = Double.parseDouble(priceTxt.getText());
         String ItemCode = itemTxt.getText();
         String Amount=amountTxt.getText();
-        Suppliers suppliers = new Suppliers(SupplierID, SupplierName,SupplierEmail,SupplierContact,Price,ItemCode,Amount);
+
+        //Suppliers suppliers = new Suppliers(SupplierID, SupplierName,SupplierEmail,SupplierContact,Price,ItemCode,Amount);
 
         try {
-            boolean isUpdate = SupplierModel.update(suppliers);
+            boolean updateSupplier = supplierBO.updateSuppliers(new Suppliers(SupplierID,SupplierName,SupplierEmail,SupplierContact,Price,ItemCode,Amount));
 
-            if (isUpdate) {
+            if (updateSupplier) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Supplier Update!").show();
             } else {
                 new Alert(Alert.AlertType.WARNING, "Something happened!").show();
@@ -77,12 +83,13 @@ public class SupplierFormController {
         double Price = Double.parseDouble(priceTxt.getText());
         String ItemCode = itemTxt.getText();
         String Amount=amountTxt.getText();
-        Suppliers suppliers = new Suppliers(SupplierID, SupplierName,SupplierEmail,SupplierContact,Price,ItemCode,Amount);
+
+        //Suppliers suppliers = new Suppliers(SupplierID, SupplierName,SupplierEmail,SupplierContact,Price,ItemCode,Amount);
 
         try {
-            boolean isDeleted = SupplierModel.remove(supplierIdTxt.getText());
+            boolean deleteSupplier = supplierBO.removeSuppliers(SupplierID);
 
-            if (isDeleted) {
+            if (deleteSupplier) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Supplier Delete!").show();
             } else {
                 new Alert(Alert.AlertType.WARNING, "Something happened!").show();
@@ -98,10 +105,10 @@ public class SupplierFormController {
     public void SearchOnAction(ActionEvent actionEvent) {
         String SupplierID = supplierIdTxt.getText();
         try {
-            Suppliers suppliers = SupplierModel.search(SupplierID);
-            if (suppliers != null) {
-                fillData(suppliers);
-                //new Alert(Alert.AlertType.CONFIRMATION, "Search Ok!!!!").show();
+            //Suppliers suppliers = SupplierModel.search(SupplierID);
+            boolean searchSupplier = supplierBO.searchSuppliers(SupplierID);
+            if (searchSupplier) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Search Ok!!!!").show();
             } else {
                 new Alert(Alert.AlertType.WARNING, "Something happened!").show();
             }
